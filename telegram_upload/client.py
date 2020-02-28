@@ -66,8 +66,7 @@ class Client(TelegramClient):
             except Exception:
                 raise
             finally:
-                if thumb:
-                    os.remove(thumb)
+                pass
             click.echo()
             if print_file_id:
                 click.echo('Uploaded successfully "{}" (file_id {})'.format(file, pack_bot_file_id(message.media)))
