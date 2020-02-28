@@ -52,12 +52,10 @@ class Client(TelegramClient):
         return super().start(phone=phone, password=password, bot_token=bot_token, force_sms=force_sms,
                              first_name=first_name, last_name=last_name, max_attempts=max_attempts)
 
-    def send_files(self, entity, title, performer, duration, files, delete_on_success=False, print_file_id=False):
+    def send_files(self, entity, title, performer, duration, caption, files, delete_on_success=False, print_file_id=False):
         for file in files:
             progress = get_progress_bar('Uploading', os.path.basename(file), os.path.getsize(file))
             name = os.path.basename(file)
-            # thumb = get_file_thumb(file)
-            caption = title
             try:
                 attributes = []
                 attributes.append(DocumentAttributeFilename(name))

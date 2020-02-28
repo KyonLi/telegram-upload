@@ -16,10 +16,11 @@ from telegram_upload.config import default_config
 @click.option('--title', default=None)
 @click.option('--performer', default=None)
 @click.option('--duration', default=0)
-def upload(files, to, config, delete_on_success, print_file_id, title, performer, duration):
+@click.option('--caption', default=None)
+def upload(files, to, config, delete_on_success, print_file_id, title, performer, duration, caption):
     client = Client(config or default_config())
     client.start()
-    client.send_files(to, title, performer, duration, files, delete_on_success, print_file_id)
+    client.send_files(to, title, performer, duration, caption, files, delete_on_success, print_file_id)
 
 
 @click.command()
