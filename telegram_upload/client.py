@@ -7,7 +7,7 @@ from typing import Iterable
 import click
 import os
 
-from telethon.tl.types import Message, DocumentAttributeFilename
+from telethon.tl.types import Message, DocumentAttributeFilename, DocumentAttributeAudio
 from telethon.utils import pack_bot_file_id
 
 from telegram_upload.files import get_file_attributes, get_file_thumb
@@ -52,17 +52,17 @@ class Client(TelegramClient):
         return super().start(phone=phone, password=password, bot_token=bot_token, force_sms=force_sms,
                              first_name=first_name, last_name=last_name, max_attempts=max_attempts)
 
-    def send_files(self, entity, files, delete_on_success=False, print_file_id=False):
+    def send_files(self, entity, files, delete_on_success=False, print_file_id=False, title, performer, duration):
         for file in files:
             progress = get_progress_bar('Uploading', os.path.basename(file), os.path.getsize(file))
-            name = '.'.join(os.path.basename(file).split('.')[:-1])
-            thumb = get_file_thumb(file)
-            caption = (name[:CAPTION_MAX_LENGTH] + '..') if len(name) > CAPTION_MAX_LENGTH else name
+            name = os.path.basename(file)
+            # thumb = get_file_thumb(file)
+            caption = title
             try:
-                attributes = get_file_attributes(file)
-                message = self.send_file(entity, file, thumb=thumb,
-                                         caption=caption,
-                                         progress_callback=progress, attributes=attributes)
+                attributes = []
+                attributes.append(DocumentAttributeFilename(name))
+                attributes.append(DocumentAttributeAudio(duration=duration, title=title, performer=performer))
+                message = self.send_file(entity, file, caption=caption, progress_callback=progress, attributes=attributes)
             except Exception:
                 raise
             finally:

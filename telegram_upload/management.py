@@ -13,10 +13,13 @@ from telegram_upload.config import default_config
 @click.option('--config', default=None)
 @click.option('-d', '--delete-on-success', is_flag=True)
 @click.option('--print-file-id', is_flag=True)
-def upload(files, to, config, delete_on_success, print_file_id):
+@click.option('--title', default=None)
+@click.option('--performer', default=None)
+@click.option('--duration', default=0)
+def upload(files, to, config, delete_on_success, print_file_id, title, performer, duration):
     client = Client(config or default_config())
     client.start()
-    client.send_files(to, files, delete_on_success, print_file_id)
+    client.send_files(to, files, delete_on_success, print_file_id, title, performer, duration)
 
 
 @click.command()
