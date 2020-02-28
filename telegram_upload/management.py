@@ -19,7 +19,7 @@ from telegram_upload.config import default_config
 def upload(files, to, config, delete_on_success, print_file_id, title, performer, duration):
     client = Client(config or default_config())
     client.start()
-    client.send_files(to, files, delete_on_success, print_file_id, title, performer, duration)
+    client.send_files(to, title, performer, duration, files, delete_on_success, print_file_id)
 
 
 @click.command()
